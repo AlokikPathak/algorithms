@@ -2,6 +2,7 @@
 using namespace std;
 
 const int V=9;
+
 /**
  * A function to find vertex with minimum key value
  * from a key[]
@@ -34,9 +35,14 @@ void printMST(int parent[], int graph[V][V]){
 	
 	for(int i=1; i<V; i++) {
 
+		/**
+		  * 1st: Printing the Parent Vertex of starting from 2nd Vertex, since 1st Vertex has no Parent i.e. -1 
+		  * 2nd: The Current vertex
+		  * 3rd: Weight of the Edge
+		  */
 		cout<<parent[i]<<" - "<<i<<"\t"<<graph[i][parent[i]]<<endl;
 		
-		// Total Weight of MST	
+		// Adding all the Edge Weights of MST	
 		totalWeight+=graph[i][parent[i]];
 	}
 	
@@ -66,7 +72,7 @@ void primsMST(int graph[V][V]){
 	
 	// Always include 1st vertex in mstSet[]
 	key[0]=0; 
-//	mstSet[0]=true;
+
 	
 	parent[0]=-1; //Root of MST
 	
