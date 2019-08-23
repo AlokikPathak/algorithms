@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+#include<stdbool.h>
 
 // Structure for storing queue
 struct Queue{
@@ -14,6 +15,7 @@ struct Queue* createQueue(unsigned int capacity){
     struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
     queue->capacity = capacity;
     queue->front = 0;
+    queue->size = 0;
     queue->rear = capacity-1; //refer enqueue function
     // Create Integer array of size 'capacity'
     queue->array =(int*) malloc((queue->capacity)*sizeof(int));
@@ -92,31 +94,31 @@ void createGraph( struct Graph* G, int V) {
 	for( i=0; i<V; i++) {
 		// Create Pointer to array of int of size V and assign it G->edges[i] Pointers
 		G->edges[i] = (int*) malloc(V*sizeof(int));
+		// Initialize all vertex as independent i.e 0
+		// If there is a edge, it will be '1' i.e. G->edges[i][j]=0
 		for( j=0; j<V; j++) {
-			G->edges[i][j] = INT_MAX;
+			G->edges[i][j] = 0;
 		}
-		// Initialize Weight to Edge pointing to itself
-		G->edges[i][i] = 0;
+
 	}
 }
 
 // Adds the given edge to the graph
-void addEdge( struct Graph* G, int src, int dst, int weight) {
-	G->edges[src][dst] = weight;
+void addEdge( struct Graph* G, int src, int dst) {
+	G->edges[src][dst] = 1;
 }
 
 // Prints graph in Adjacency list format
 void printGraph( struct Graph* G, int V) {
-	printf("The Directed { Weighted } Graph Adjacency List Representation: ");
+	printf("Graph's Adjacency List Representation: ");
 	int i,j;
 	for( i=0; i<V; i++) {
-		printf("\n%d",i);
+		printf("\n%d -> ",i);
 		for(  j=0; j<V; j++) {
-			// INT_MAX and 0 is initialized weight value are filtered out
-			if(G->edges[i][j]  != INT_MAX &&  G->edges[i][j]  != 0 ) {
-				printf(" -> ");
-				// Edge Weight is printed inside {}
-				printf("%d {%d}", j, G->edges[i][j]);
+			// if there is an edge between Vertex i and vertex j, G->edges[i][j] = j
+			if( G->edges[i][j]  != 0 ) {
+				printf(" ");
+				printf("%d", j);
 			}
 		}
 	}
@@ -124,7 +126,43 @@ void printGraph( struct Graph* G, int V) {
 
 
 
-void BreadthFirstSearch(struct Graph* G, int V ) {
+void breadthFirstSearch(struct Graph* G, int V, int src ) {
+
+    int i;
+    // Visited Array to prevent node to be revisited
+    bool visited[V];
+    // All vertex are initialized as not visited
+    for(i=0; i<V; i++)
+        visited[i] = false;
+
+    // Queue to store all unvisited vertex sequentially
+    struct Queue* queue = createQueue(V*V);
+
+    // Mark the current node as visited and enqueue it
+    visited[src] = true;
+    enqueue(queue, src);
+
+    while(!isEmpty(queue)) {
+
+        // Dequeue a vertex from Queue and print it
+        src = getFront(queue);
+        dequeue(queue);
+        printf("%d ->",src);
+
+        // Get all the vertices connected to dequeued vertex
+        // If the vertex is not visited then, enqueue & mark it as visited
+        for(i=0; i<V; i++) {
+
+            int edgeExists = G->edges[src][i];
+            // Checking if there is as edge i.e. edgeExists!=0 and is vertex i.e. 'i' is not visited
+            if( edgeExists!=0 && visited[i]==false ) {
+                    visited[i] = true;
+                    enqueue(queue,i);
+
+            }
+        }
+
+    }
 
 }
 
@@ -145,17 +183,18 @@ int main() {
 	for( i=0; i<E; i++ ) {
 		printf("\n Enter Edge %d \n Enter Source: ",i+1);
 		scanf("%d",&src);
-		printf("\Enter destination: ");
+		printf("\nEnter destination: ");
 		scanf("%d", &dst);
-		printf("\nEnter Weight: ");
-		scanf("%d", &weight);
-		addEdge(&G, src, dst, weight);
+		addEdge(&G, src, dst);
 	}
 
-	// Creating queue
-	struct Queue* queue = createQueue(V);
+	printf("\nEnter the source vertex for BFS Traversal\n");
+	scanf("%d", &gsrc);
 
 	printGraph(&G, V);
+	printf("\nBFS from source: %d\n",gsrc);
+	breadthFirstSearch(&G, V, gsrc);
+
 	return 0;
 
 }
