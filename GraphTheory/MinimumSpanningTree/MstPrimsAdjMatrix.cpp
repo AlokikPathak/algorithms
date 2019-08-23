@@ -1,6 +1,13 @@
+/**
+ * Implemented Prims algorithm using Adjacency Matrix for finding Minimum Spanning Tree in undirected weighted Graph
+ * Time Complexity : O(V^2)
+ * Complexity can be further optimize by using Adjacency List with Priority Queue(Binary Heap) to O(ElogV) or O(VlogV)
+ */
+
 #include<bits/stdc++.h>
 using namespace std;
 
+// No. of Vertices of Graph
 const int V=9;
 
 /**
@@ -14,6 +21,7 @@ int minKey(int key[], bool mstSet[], int V) {
 	
 	for( int i=0; i<V; i++ ){
 		
+		// Checking if the vertex is not added in mstSet and it is having min key value
 		if( mstSet[i] == false && key[i]<min ){
 			
 			min = key[i]; min_index=i;
@@ -88,10 +96,13 @@ void primsMST(int graph[V][V]){
 		// Update the key value of all adjacent vertices of picked vertex not present in mstSet
 		for(int v=0; v< V; v++){
 			
+			// Checking if 1. The vertex is not present in mstSet 2. It's edge weight is less than key value(Update vertex key)
 			if( graph[u][v] && mstSet[v]==false && graph[u][v] < key[v] ){
 				
-				/***/
-				parent[v]=u, key[v]= graph[u][v];
+				// Updating the parent Vertex of the vertices
+				parent[v]=u;
+				// updating Key value of vertex(min edge weight)
+				key[v]= graph[u][v];
 			}
 		}
 	}
