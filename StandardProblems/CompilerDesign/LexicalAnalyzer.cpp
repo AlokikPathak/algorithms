@@ -35,18 +35,34 @@ short int isKeyword(char buffer[]) {
 
 /**
  * Name = isOperator()
- * Purpose: Finds whether the parameter 'ch' is a operator of not
- * @param: char 'ch'
+ * Purpose: Finds whether the parameter 'buffer' is a operator, if yes returns 1 else 0
+ * @param: char[] buffer
  * @return: short int, returns
  */
 short int isOperator(char buffer[]) {
     // Basic set of arithmetic operators
-    char operatorsCPP[4][2] = { "+", "-", "*", "/" };
+    char operatorsCPP[5][2] = { "+", "-", "*", "/", "=" };
     // Linear Search
-    for(int i=0; i<6; i++)
+    for(int i=0; i<5; i++)
         if( strcmp(operatorsCPP[i], buffer) == 0)
             return 1;
     // if ch is not a operator in CPP language
+    return 0;
+}
+
+/**
+ * Name = isSeperator()
+ * Purpose: Finds whether the parameter 'buffer' is a seperator
+ * @param: char[] buffer
+ * @return: short int, , if yes returns 1 else 0
+ */
+short int isSeperator(char buffer[] ) {
+    char seperatorsCPP[6][2] = { "(", ")", "{", "}", ";", ","};
+    // Linear Search
+    for( int i=0; i<6; i++)
+        if(strcmp(seperatorsCPP[i], buffer) == 0 )
+            return 1;
+    // if buffer is not a seperator in CPP language
     return 0;
 }
 
@@ -68,8 +84,9 @@ int main() {
         if((ch==' ' || ch=='\n') && j!=0) {
             buffer[j] = '\0';
             j=0;
-            // 1. If the string is Operator
-            if( isOperator(buffer) )
+            if(isSeperator(buffer))
+                cout<<"\n"<<buffer<<" : Seperator";
+            else if( isOperator(buffer) )
                 cout<<"\n"<<buffer<<" : Operator";
             else if( isKeyword(buffer) )
                 cout<<"\n"<<buffer<<" : Keyword";
