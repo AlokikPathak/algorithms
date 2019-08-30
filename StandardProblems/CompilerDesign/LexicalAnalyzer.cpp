@@ -6,6 +6,22 @@
 using namespace std;
 
 /**
+ * NOTE:
+ * 1. Please keep the text file 'program.txt' as in the same directory where the Program resides
+ * 2. For now for this programs, all the segments of Programs( operators, separators, literals, keywords etc ) must be space seperated
+ * 3. ex. File: program.txt
+
+        int main ( ) {
+
+            int a = 5 , b = 5 ;
+            int c = a + b ;
+            return 0 ;
+        }
+
+ * 4. It will updated soon, all the above conditions will be taken care.
+ */
+
+/**
  * Name: isKeyword()
  * Purpose: Finds whether the string parameter 'buffer' is Keyword in CPP or not
  * @param:  char[] buffer
