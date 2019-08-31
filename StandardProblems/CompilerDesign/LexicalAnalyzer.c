@@ -153,17 +153,22 @@ short int isLiteral(char buffer[]) {
     return 0;
 }
 
-int main() {
-    char ch, buffer[20];
-    unsigned short int j=0;
-    // Taking 'program.txt' file as i/p
+/**
+ * Name: lexicalAnalzer()
+ * Purpose: Performs lexical analysis and prints the type of tokens
+ * @param: char[] fileName
+ * @return: void
+ */
+void lexicalAnalyzer(char fileName[]) {
     FILE *fp;
-    fp = fopen("program.txt","r");
+    fp = fopen(fileName,"r");
     // Checking if the sample program open successfully
     if(fp == NULL) {
         printf("Error while opening the file\n");
         exit(0);
     }
+    char ch, buffer[20];
+    unsigned short int j=0;
     // Loop to iterate char by char in file
     // extract space separated letters or words
     while( (ch = fgetc(fp)) != EOF ){
@@ -186,5 +191,12 @@ int main() {
     }
     // Closing file after operation is complete
     fclose(fp);
+
+}
+
+int main() {
+
+    char fileName[]="program.txt";
+    lexicalAnalyzer(fileName);
     return 0;
 }
