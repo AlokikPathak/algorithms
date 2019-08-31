@@ -41,7 +41,7 @@ short int isKeyword(char buffer[]) {
     };
     // Linear Search to find
     int i;
-    for(i=0; i<99; i++)
+    for(i=0; i<101; i++)
         if( strcmp(keywordsCPP[i], buffer) == 0 )
             return 1;
     // If buffer is not a Keyword in CPP Language
@@ -58,7 +58,8 @@ short int isOperator(char buffer[]) {
     // Basic set of arithmetic operators
     char operatorsCPP[15][3] = { "+", "-", "*", "/", "=", ">", "<", ">=", "<=", "++", "--", "+=", "-=", "*=", "/=" };
     // Linear Search
-    for(int i=0; i<5; i++)
+    int length = strlen(operatorsCPP);
+    for(int i=0; i<length; i++)
         if( strcmp(operatorsCPP[i], buffer) == 0)
             return 1;
     // if ch is not a operator in CPP language
@@ -74,8 +75,8 @@ short int isOperator(char buffer[]) {
 short int isSeperator(char buffer[] ) {
     char seperatorsCPP[6][2] = { "(", ")", "{", "}", ";", ","};
     // Linear Search
-    int i;
-    for(i=0; i<6; i++)
+    int i, length = strlen(seperatorsCPP);
+    for(i=0; i<length; i++)
         if(strcmp(seperatorsCPP[i],buffer)==0 )
             return 1;
     // if buffer is not a seperator in CPP language
