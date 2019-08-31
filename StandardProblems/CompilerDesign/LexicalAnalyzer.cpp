@@ -29,20 +29,20 @@ using namespace std;
  */
 short int isKeyword(char buffer[]) {
     // List of Keywords in CPP
-    // Reference: 'https://en.cppreference.com/w/cpp/keyword'
-    char keywordsCPP[96][20] = {
+    // Reference: 'https://en.cppreference.com/w/cpp/keyword' true and false as literals
+    char keywordsCPP[99][20] = {
         "alignas","alignof","and","and_eq","asm","atomic_cancel","atomic_commit","atomic_noexcept","auto",
         "bitand","bitor","bool","break","case","catch","char","char8_t","char16_t","char32_t","class","compl",
         "concept","const","consteval","constexpr","const_cast","continue","co_await","co_return","co_yield",
         "decltype","default","delete","do","double","dynamic_cast","else","enum","explicit","export","extern",
-        "false","float","for","friend","goto","if","inline","int","long","mutable","namespace","new","noexcept",
-        "not","not_eq","nullptr","operator","or","or_eq","private","protected","public","reflexpr","register",
+        "float","for","friend","goto","if","inline","int","long","mutable","namespace","new","noexcept",
+        "not","not_eq","nullptr","operator","or","or_eq","private","protected","public", "return", "reflexpr","register",
         "reinterpret_cast","requires","return","short","signed","sizeof","static","static_assert","static_cast",
-        "struct","switch","synchronized","template","this","thread_local","throw","true","try","typedef","typeid",
-        "typename","union","unsigned","using","virtual","void","volatile","wchar_t","while","xor","xor_eq"
+        "struct","switch","synchronized","template","this","thread_local","throw","try","typedef","typeid",
+        "typename","union","unsigned","using","virtual","void","volatile","wchar_t","while","xor","xor_eq","<<",">>","cout","cin"
     };
     // Linear Search to find
-    for(int i=0; i<96; i++)
+    for(int i=0; i<99; i++)
         if( strcmp(keywordsCPP[i], buffer) == 0 )
             return 1;
     // If buffer is not a Keyword in CPP Language
@@ -90,7 +90,7 @@ short int isSeperator(char buffer[] ) {
  */
 short int isLiteralNum(char buffer[]) {
     // check is buffer[]. contains only 0 or numeric digit
-    if(buffer[0]==0 || atof(buffer)>0 )
+    if(buffer[0]=='0' || atof(buffer) )
         return 1;
     return 0;
 }
@@ -180,8 +180,8 @@ int main() {
                 cout<<"\n"<<buffer<<" : Literal";
             else
                 cout<<"\n"<<buffer<<" : Identifier";
-        }else
-            buffer[j++] = ch;
+        }else if(ch!=' ' && ch!='\n')
+            buffer[j++]=ch;
     }
     fin.close();
 }
