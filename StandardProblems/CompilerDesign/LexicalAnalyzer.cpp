@@ -51,13 +51,13 @@ short int isKeyword(char buffer[]) {
 
 /**
  * Name = isOperator()
- * Purpose: Finds whether the parameter 'buffer' is a operator, if yes returns 1 else 0
+ * Purpose: Finds whether the parameter 'buffer[]' is a operator, if yes returns 1 else 0
  * @param: char[] buffer
  * @return: short int, returns
  */
 short int isOperator(char buffer[]) {
     // Basic set of arithmetic operators
-    char operatorsCPP[5][2] = { "+", "-", "*", "/", "=" };
+    char operatorsCPP[15][3] = { "+", "-", "*", "/", "=", ">", "<", ">=", "<=", "++", "--", "+=", "-=", "*=", "/=" };
     // Linear Search
     for(int i=0; i<5; i++)
         if( strcmp(operatorsCPP[i], buffer) == 0)
@@ -76,12 +76,81 @@ short int isSeperator(char buffer[] ) {
     char seperatorsCPP[6][2] = { "(", ")", "{", "}", ";", ","};
     // Linear Search
     for( int i=0; i<6; i++)
-        if(strcmp(seperatorsCPP[i], buffer) == 0 )
+        if(strcmp(seperatorsCPP[i],buffer)==0 )
             return 1;
     // if buffer is not a seperator in CPP language
     return 0;
 }
 
+/**
+ * Name = isLiteralNum()
+ * Purpose: Finds whether the parameter 'buffer' is a Numeric Literal
+ * @param: char[] buffer
+ * @return: short int, , if yes returns 1 else 0
+ */
+short int isLiteralNum(char buffer[]) {
+    // check is buffer[]. contains only 0 or numeric digit
+    if(buffer[0]==0 || atof(buffer)>0 )
+        return 1;
+    return 0;
+}
+
+/**
+ * Name = isLiteralChar()
+ * Purpose: Finds whether the parameter 'buffer' is a Char Literal ex. 'A'
+ * @param: char[] buffer
+ * @return: short int, if yes returns 1 else 0
+ */
+short int isLiteralChar(char buffer[]) {
+    if(strlen(buffer)>2) {
+        // if 1st and second char is "'" i.e. ascii 39
+        short int a = buffer[0];
+        short int b = buffer[2];
+        if( a==39 && b==39 )
+            return 1;
+    }
+    return 0;
+}
+
+/**
+ * Name = isLiteralBool()
+ * Purpose: Finds whether the parameter 'buffer' is a Boolean Literal
+ * @param: char[] buffer
+ * @return: short int, , if yes returns 1 else 0
+ */
+short int isLiteralBool(char buffer[]) {
+    if(strcmp(buffer, "true")==0 || strcmp(buffer, "false")==0)
+        return 1;
+    return 0;
+}
+
+/**
+ * Name = isLiteralString()
+ * Purpose: Finds whether the parameter 'buffer' is a String Literal
+ * @param: char[] buffer
+ * @return: short int, , if yes returns 1 else 0
+ */
+short int isLiteralString( char buffer[]) {
+    int i=0;
+    while(buffer[i]!='\0')
+        i++;
+    // check if literal is string i.e. begins and ends with '"'
+    if(buffer[0]=='"' || buffer[i]=='"')
+        return 1;
+    return 0;
+}
+
+/**
+ * Name: isLiteral(), ex. true, false, 3523, 23.09832, 'A', 'Hello World';
+ * Purpose: Checks wheather the string is literal or not
+ * @param char[], buffer[]
+ * @return short int, is it is literal returns 1, else 0
+ */
+short int isLiteral(char buffer[]) {
+    if(isLiteralChar(buffer) || isLiteralBool(buffer) || isLiteralNum(buffer) || isLiteralString(buffer))
+        return 1;
+    return 0;
+}
 
 int main() {
     char ch, buffer[20];
@@ -94,6 +163,7 @@ int main() {
         exit(0);
     }
     // Loop to iterate char by char in file
+    // extract space separated letters or words
     while(!fin.eof()){
         ch = fin.get();
 
@@ -106,6 +176,8 @@ int main() {
                 cout<<"\n"<<buffer<<" : Operator";
             else if( isKeyword(buffer) )
                 cout<<"\n"<<buffer<<" : Keyword";
+            else if(isLiteral(buffer))
+                cout<<"\n"<<buffer<<" : Literal";
             else
                 cout<<"\n"<<buffer<<" : Identifier";
         }else
